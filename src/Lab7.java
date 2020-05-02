@@ -207,10 +207,10 @@ public class Lab7 extends JPanel implements GLEventListener {
 		// TODO: write this method
 		
         GLContext context = displayGL.getContext();
-        boolean needsRelease = false;
+        boolean x = false;
         if (!context.isCurrent()) {
             context.makeCurrent();
-            needsRelease = true;
+            x = true;
         }
         GL2 gl2 = context.getGL().getGL2(); 
         Texture tex;
@@ -219,7 +219,7 @@ public class Lab7 extends JPanel implements GLEventListener {
         tex.setTexParameteri(gl2, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
         tex.setTexParameteri(gl2, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
         
-        if (needsRelease) {
+        if (x) {
             context.release();
         }
 
@@ -236,16 +236,16 @@ public class Lab7 extends JPanel implements GLEventListener {
 	 */
 	private void paintingFromOpenGL() {
 		GLContext context = displayGL.getContext(); // OpenGL context for the display panel.
-		boolean needsRelease = false;  // Will be set to true if context needs to be made current.
+		boolean x = false;  // Will be set to true if context needs to be made current.
 		if ( ! context.isCurrent() ) {
 			    // Make the context current on the current thread.
 			context.makeCurrent();
-			needsRelease = true;
+			x = true;
 		}
 		GL2 gl2 = context.getGL().getGL2();
-		AWTGLReadBufferUtil readBuf = new AWTGLReadBufferUtil(displayGL.getGLProfile(), false);
-		BufferedImage img = readBuf.readPixelsToBufferedImage(gl2, true); // Get display content as image.
-		if (needsRelease) {
+		AWTGLReadBufferUtil rbu = new AWTGLReadBufferUtil(displayGL.getGLProfile(), false);
+		BufferedImage img = rbu.readPixelsToBufferedImage(gl2, true); // Get display content as image.
+		if (x) {
 			context.release();
 		}
 		paintPanel.installImage(img); // copy the image into the PaintPanel.
